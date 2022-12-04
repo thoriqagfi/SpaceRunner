@@ -7,12 +7,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.SpaceRunnerButton;
+import model.SpaceRunnerSubscene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.Background;
-
+import javafx.event.EventHandler;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 
 public class ViewManager {
   private static final int HEIGHT = 768;
@@ -34,6 +38,12 @@ public class ViewManager {
     mainStage.setScene(mainScene);
     createButtons();
     createBackground();
+    createLogo();
+    SpaceRunnerSubscene subScene = new SpaceRunnerSubscene();
+
+    subScene.setLayoutX(200);
+    subScene.setLayoutY(100);
+    mainPane.getChildren().add(subScene);
   }
 
   public Stage getMainStage() {
@@ -84,5 +94,29 @@ public class ViewManager {
     Image backgroundImage = new Image("view/resources/blue.png", 256, 256, false, true);
     BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
     mainPane.setBackground(new Background(background));
+  }
+
+  private void createLogo() {
+    ImageView logo = new ImageView("view/resources/space_runner.png");
+    logo.setLayoutX(400);
+    logo.setLayoutY(50);
+
+    logo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+      @Override
+      public void handle(MouseEvent event) {
+        logo.setEffect(new DropShadow());
+      }
+    });
+
+    logo.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+      @Override
+      public void handle(MouseEvent event) {
+        logo.setEffect(null);
+      }
+    });
+
+    mainPane.getChildren().add(logo);
   }
 }
