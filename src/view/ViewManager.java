@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.Background;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +29,13 @@ public class ViewManager {
   private final static int MENU_BUTTONS_START_X = 100;
   private final static int MENU_BUTTONS_START_Y = 150;
 
+  private SpaceRunnerSubscene creditSubscene;
+  private SpaceRunnerSubscene helpSubscene;
+  private SpaceRunnerSubscene scoreSubscene;
+  private SpaceRunnerSubscene shipChooserscene;
+
+  private SpaceRunnerSubscene sceneToHide;
+
   List<SpaceRunnerButton> menuButtons;
 
   public ViewManager() {
@@ -36,18 +44,36 @@ public class ViewManager {
     mainScene = new Scene(mainPane, WIDTH, HEIGHT);
     mainStage = new Stage();
     mainStage.setScene(mainScene);
+    createSubscene();
     createButtons();
     createBackground();
     createLogo();
-    SpaceRunnerSubscene subScene = new SpaceRunnerSubscene();
-
-    subScene.setLayoutX(200);
-    subScene.setLayoutY(100);
-    mainPane.getChildren().add(subScene);
   }
 
   public Stage getMainStage() {
     return mainStage;
+  }
+
+  private void createSubscene() {
+    creditSubscene = new SpaceRunnerSubscene();
+    mainPane.getChildren().add(creditSubscene);
+
+    helpSubscene = new SpaceRunnerSubscene();
+    mainPane.getChildren().add(helpSubscene);
+
+    scoreSubscene = new SpaceRunnerSubscene();
+    mainPane.getChildren().add(scoreSubscene);
+
+    shipChooserscene = new SpaceRunnerSubscene();
+    mainPane.getChildren().add(shipChooserscene);
+  }
+
+  private void showSubscene(SpaceRunnerSubscene subscene) {
+    if (sceneToHide != null) {
+      sceneToHide.moveSubScene();
+    }
+    subscene.moveSubScene();
+    sceneToHide = subscene;
   }
 
   private void addMenuButton(SpaceRunnerButton button) {
@@ -68,26 +94,61 @@ public class ViewManager {
   private void createStartButton() {
     SpaceRunnerButton startButton = new SpaceRunnerButton("PLAY");
     addMenuButton(startButton);
+
+    startButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        showSubscene(shipChooserscene);
+      }
+    });
   }
 
   private void createScoreButton() {
     SpaceRunnerButton scoreButton = new SpaceRunnerButton("SCORES");
     addMenuButton(scoreButton);
+
+    scoreButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        showSubscene(scoreSubscene);
+      }
+    });
   }
 
   private void createHelpButton() {
     SpaceRunnerButton helpButton = new SpaceRunnerButton("HELP");
     addMenuButton(helpButton);
+
+    helpButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        showSubscene(helpSubscene);
+      }
+    });
   }
 
   private void createCreditsButton() {
     SpaceRunnerButton creditsButton = new SpaceRunnerButton("CREDITS");
     addMenuButton(creditsButton);
+
+    creditsButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        showSubscene(creditSubscene);
+      }
+    });
   }
 
   private void createExitButton() {
     SpaceRunnerButton exitButton = new SpaceRunnerButton("EXIT");
     addMenuButton(exitButton);
+
+    exitButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        mainStage.close();
+      }
+    });
   }
 
   private void createBackground() {
