@@ -8,6 +8,8 @@ public class App extends Application{
         try{
             ViewManager manager = new ViewManager();
             stage = manager.getMainStage();
+            stage.setTitle("SpaceRunner Game");
+            stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

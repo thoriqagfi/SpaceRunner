@@ -57,7 +57,9 @@ public class SpaceRunnerButton extends Button {
     setOnMouseReleased(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        setButtonReleasedStyle();
+        if(event.getButton().equals(MouseButton.PRIMARY)) {
+          setButtonReleasedStyle();
+        }
       }
     });
 
